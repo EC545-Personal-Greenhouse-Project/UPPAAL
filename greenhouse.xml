@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+
+clock clk; 
+
+// Channel to message when the heat lamp is turned on/off
+
+// Channel to message when the air humidifier is turned on/of
+
+// Channel to message when the water pump is turned on/off
+
+// Channel to message Heat Lamp Module
+chan CallHeatLamp;
+
+// Channel to message Air Humidifier Module
+chan CallAirHumidifier;
+
+// Channel to message Water Pump Module
+chan CallWaterPump;
+
+chan turnWaterOff;
+chan turnAirOff;
+chan turnHeatOff;
+
+chan measure;</declaration>
+	<template>
+		<name>sensors</name>
+		<location id="id0" x="25" y="-93">
+			<name x="15" y="-127">air</name>
+			<committed/>
+		</location>
+		<location id="id1" x="-76" y="-93">
+			<name x="-86" y="-127">water</name>
+			<committed/>
+		</location>
+		<location id="id2" x="-221" y="-93">
+			<name x="-230" y="-127">heat</name>
+			<committed/>
+		</location>
+		<location id="id3" x="-357" y="-93">
+			<name x="-367" y="-127">idle</name>
+		</location>
+		<init ref="id3"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-221" y="17">CallAirHumidifier!</label>
+			<nail x="-153" y="8"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-68" y="-153">CallWaterPump!</label>
+			<nail x="-17" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-204" y="-153">CallHeatLamp!</label>
+			<nail x="-144" y="-127"/>
+			<nail x="-144" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-322" y="-153">measure?</label>
+			<nail x="-288" y="-127"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">Heat_Lamp</name>
+		<declaration>// Place local declarations here.</declaration>
+		<location id="id4" x="289" y="-42">
+			<name x="281" y="-76">on</name>
+		</location>
+		<location id="id5" x="25" y="-59">
+			<name x="-17" y="-76">off</name>
+		</location>
+		<init ref="id5"/>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="43" y="-144">CallHeatLamp?</label>
+			<nail x="102" y="-195"/>
+			<nail x="-8" y="-178"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-41" y="-110">turnHeatOff?</label>
+			<nail x="-34" y="8"/>
+			<nail x="-59" y="-127"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="93" y="-93">CallHeatLamp?</label>
+			<nail x="144" y="-127"/>
+			<nail x="195" y="-119"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="127" y="34">turnHeatOff?</label>
+			<nail x="246" y="25"/>
+			<nail x="246" y="25"/>
+			<nail x="110" y="25"/>
+			<nail x="110" y="25"/>
+		</transition>
+	</template>
+	<template>
+		<name>Air_Humidifier</name>
+		<location id="id6" x="-77" y="-119">
+			<name x="-85" y="-153">on</name>
+		</location>
+		<location id="id7" x="-306" y="-119">
+			<name x="-348" y="-136">off</name>
+		</location>
+		<init ref="id7"/>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-356" y="-267">CallAirHumidifier?</label>
+			<nail x="-289" y="-263"/>
+			<nail x="-374" y="-238"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-364" y="-165">turnAirOff?</label>
+			<nail x="-365" y="-68"/>
+			<nail x="-365" y="-68"/>
+			<nail x="-382" y="-178"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-237" y="-204">CallAirHumidifier?</label>
+			<nail x="-255" y="-187"/>
+			<nail x="-255" y="-187"/>
+			<nail x="-119" y="-187"/>
+			<nail x="-119" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-237" y="-69">turnAirOff?</label>
+			<nail x="-119" y="-52"/>
+			<nail x="-119" y="-52"/>
+			<nail x="-255" y="-52"/>
+			<nail x="-255" y="-52"/>
+		</transition>
+	</template>
+	<template>
+		<name>Water_Pump</name>
+		<location id="id8" x="-43" y="-76">
+			<name x="-51" y="-110">on</name>
+		</location>
+		<location id="id9" x="-272" y="-76">
+			<name x="-314" y="-93">off</name>
+		</location>
+		<init ref="id9"/>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-322" y="-191">CallWaterPump?</label>
+			<nail x="-255" y="-170"/>
+			<nail x="-340" y="-178"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-416" y="-68">turnWaterOff?</label>
+			<nail x="-306" y="-34"/>
+			<nail x="-306" y="-34"/>
+			<nail x="-331" y="-119"/>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="-203" y="-161">CallWaterPump?</label>
+			<nail x="-221" y="-144"/>
+			<nail x="-221" y="-144"/>
+			<nail x="-85" y="-144"/>
+			<nail x="-85" y="-144"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-203" y="-26">turnWaterOff?</label>
+			<nail x="-85" y="-9"/>
+			<nail x="-85" y="-9"/>
+			<nail x="-221" y="-9"/>
+			<nail x="-221" y="-9"/>
+		</transition>
+	</template>
+	<template>
+		<name>TopModule</name>
+		<declaration>clock count;</declaration>
+		<location id="id10" x="-586" y="-127">
+			<name x="-646" y="-161">all_off</name>
+		</location>
+		<location id="id11" x="-391" y="-161">
+			<name x="-408" y="-204">all_on</name>
+		</location>
+		<location id="id12" x="-272" y="-161">
+			<name x="-280" y="-204">heat_off</name>
+		</location>
+		<location id="id13" x="-76" y="-170">
+			<name x="-86" y="-204">humid_off</name>
+		</location>
+		<init ref="id10"/>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-568" y="-186">count&gt;10</label>
+			<label kind="synchronisation" x="-569" y="-170">measure!</label>
+			<label kind="assignment" x="-568" y="-152">count := 0</label>
+			<nail x="-476" y="-178"/>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-322" y="-157">count&gt;7</label>
+			<label kind="synchronisation" x="-297" y="-85">turnWaterOff!</label>
+			<nail x="-340" y="-76"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="guard" x="-254" y="-208">count&gt;5</label>
+			<label kind="synchronisation" x="-204" y="-221">turnAirOff!</label>
+			<nail x="-204" y="-187"/>
+			<nail x="-204" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id12"/>
+			<label kind="guard" x="-348" y="-187">count&gt;3</label>
+			<label kind="synchronisation" x="-365" y="-221">turnHeatOff!</label>
+			<nail x="-374" y="-170"/>
+			<nail x="-323" y="-195"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+sense = sensors();
+heat = Heat_Lamp();
+humidity = Air_Humidifier(); 
+water = Water_Pump();
+top = TopModule(); 
+
+// List one or more processes to be composed into a system.
+system sense &lt; heat &lt; humidity &lt; water &lt; top;</system>
+	<queries>
+		<query>
+			<formula>E&lt;&gt; (top.all_on and heat.on and water.off and humidity.on)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (top.all_on and heat.on and water.on and humidity.on)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (top.all_on and heat.off and water.off and humidity.off)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] (top.heat_off imply (heat.off))
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] (top.humid_off imply (heat.off and humidity.off))
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; (clk&gt;10 and heat.off and top.heat_off)
+			</formula>
+			<comment>
+			</comment>
+		</query>
+		<query>
+			<formula>A[] (top.all_off imply (heat.off and humidity.off and water.off))
+			</formula>
+			<comment>
+			</comment>
+		</query>
+	</queries>
+</nta>
